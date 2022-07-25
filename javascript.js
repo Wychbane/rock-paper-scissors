@@ -11,10 +11,7 @@ function getComputerChoice () {
     } else {
         return 'Scissors';
     }
-}
-
-getComputerChoice ()
-console.log(getComputerChoice())
+};
 
 /* 
 Create function to play one round.
@@ -24,3 +21,25 @@ annouce winner.
 */
 
 let playerSelection = prompt('Rock, Paper or Scissors: ').toLowerCase()
+
+function playRound (computer, player) {
+    console.log(computer);
+    console.log(player);
+    if (computer === player) {
+        return `You tie! You both picked ${computer}`;
+    } else if (computer === 'rock' && player === 'scissors') {
+        return `You lose! Rock beats Scissors`;
+    } else if (computer === 'paper' && player === 'rock') {
+        return `You lose! Paper beats Rock`;
+    } else if (computer === 'scissors' && player === 'paper') {
+        return `You lose! Scissors beats Paper`;
+    } else if (computer === 'rock' && player === 'paper') {
+        return `You Win! Paper beats Rock`;
+    } else if (computer === 'scissors' && player === 'rock') {
+        return `You Win! Rock beats Scissors`;
+    } else if (computer === 'paper' && player === 'scissors') {
+        return `You Win! Scissors beats Paper`;
+    }
+};
+
+console.log(playRound (getComputerChoice().toLowerCase(), playerSelection));
