@@ -13,59 +13,73 @@ function getComputerChoice () {
     }
 };
 
-/* 
-Create function to play one round.
-Ask user for input and convert to lowercase.
-compare user input with computer choice.
-annouce winner. 
-*/
+const buttons = document.querySelectorAll('button');
+const div = document.querySelector('div');
+const outcome = document.createElement('div');
 
 
-function playRound (computer, player) {
+let playerWin = 0;
+let computerWin = 0;
+let gamePlayed = 0;
+
+function playRound (player, computer=getComputerChoice()) {
     if (computer === player) {
-        return `You tie! You both picked ${computer}`;
+        return `You tie! You both picked ${computer}`; 
     } else if (computer === 'rock' && player === 'scissors') {
+        computerWin++;
         return `You Lose! Rock beats Scissors`;
     } else if (computer === 'paper' && player === 'rock') {
+        computerWin++;
         return `You Lose! Paper beats Rock`;
     } else if (computer === 'scissors' && player === 'paper') {
+        computerWin++;
         return `You Lose! Scissors beats Paper`;
     } else if (computer === 'rock' && player === 'paper') {
+        playerWin++;
         return `You Win! Paper beats Rock`;
     } else if (computer === 'scissors' && player === 'rock') {
+        playerWin++;
         return `You Win! Rock beats Scissors`;
     } else if (computer === 'paper' && player === 'scissors') {
+        playerWin++;
         return `You Win! Scissors beats Paper`;
     }
 };
 
-/*
-Create a function to play 5 rounds
-Create a for loop. 
-Count number of wins of each
-Output the winner at the end
-*/
+// Get player pick and run game.
+buttons.forEach((button) => {
+        button.addEventListener('click' , () => {
+            let round = playRound(button.className);
+            game(round);
+        });
+    });
 
-function game() {
-    let playerWin = 0;
-    let computerWin = 0;
-    for (let i = 0; i < 5; i++) {
-        let playerSelection = prompt('Rock, Paper or Scissors: ').toLowerCase()
-        let result = playRound(getComputerChoice(), playerSelection);
-        console.log(`Game ${i + 1}/5 ${result}`)
-        if ((result.slice(0, 8)) === 'You Win!') {
-            playerWin++
-        } else if (result.slice(0, 8) === 'You Lose') {
-            computerWin++
-        }
-    }
-    if (playerWin === computerWin) {
-        return `It's a Tie.`
-    } else if (playerWin > computerWin) {
+function game(playRound){
+    score(playRound);
+    if (computerWin === 5 || playerWin === 5){
+        score(playRound);
+        gameOver();
+    } 
+}
+
+function score(result) {
+    let scoreBoard = `Player: ${playerWin} | Computer: ${computerWin}`;
+    outcome.textContent = scoreBoard;
+    div.textContent = result;
+    div.appendChild(outcome); 
+}
+
+function stateResult(){
+    if (playerWin > computerWin) {
         return `You won the game ${playerWin} : ${computerWin}.`
     } else {
         return `You lost the game ${playerWin} : ${computerWin}.`
     }
 }
 
-console.log(game());
+function gameOver() {
+    alert(stateResult()); 
+    playerWin = 0;
+    computerWin = 0;
+    div.textContent = '';
+}
